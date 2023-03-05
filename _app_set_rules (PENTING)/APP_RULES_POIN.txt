@@ -2,3 +2,5 @@ GANTI
 envUtama menjadi env,
 agar token midtrans masih terintegrasi
 dari token akun midtrans saya
+
+database ada di folder db, tinggal import
