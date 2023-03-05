@@ -1,0 +1,2 @@
+<a href="#" data-id='{{ $model->id }}' id="edit-artikel" data-toggle="tooltip" data-placement="top" id="edit-event" title="Edit Data" class="btn btn-xs btn-flat btn-info"><i class="fa fa-edit"></i> </a>
+<a href="#" data-id='{{ $model->id }}' id="delete-artikel" data-toggle="tooltip" data-placement="top" id="edit-event" title="Edit Data" class="btn btn-xs btn-flat btn-danger"><i class="fa fa-trash"></i> </a>
