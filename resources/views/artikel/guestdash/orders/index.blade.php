@@ -37,7 +37,7 @@
             <form action="{{ route('order.bayar') }}" method="post">
             @csrf
             @method('POST')
-            <input type="hidden" value="{{ $data->id }}" name="id">
+            <input type="hidden" value="{{ $data->id }}" name="artikel_id">
             <button type="submit" class="btn btn-primary">Bayar & CheckOut</button>
             </form>
         </div>

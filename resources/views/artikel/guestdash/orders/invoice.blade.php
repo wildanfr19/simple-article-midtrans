@@ -19,7 +19,7 @@
                             <tr>
                                 <td>Nama Artikel</td>
                                 <td>:</td>
-                                <td>{{ $order->judul }}</td>
+                                <td>{{ $judul }}</td>
                             </tr>
                             <tr>
                                 <td>Total Price</td>
@@ -29,7 +29,7 @@
                             <tr>
                                 <td>Status</td>
                                 <td>:</td>
-                                <td>{{ $order->status }}</td>
+                                <td><span class="badge badge-success">{{ $order->status }}</span></td>
                             </tr>
                         </table>
                     </div>

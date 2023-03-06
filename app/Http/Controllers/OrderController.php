@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Order;
 use Auth;
+use DB;
 class OrderController extends Controller
 {
     public function orderCheckout($id)
@@ -14,19 +15,15 @@ class OrderController extends Controller
     }
     public function bayar(Request $request)
     {
-        // $request->request->add([
-        //     'name'=> Auth::user()->name,
-        //     'artikel_id'=>$request->id,
-        //     'total_price' => 30000, 'status'=> 'Unpaid'
-        // ]);
-        $order = DB::table('orders')->insert([
+        $request->request->add([
             'name'=> Auth::user()->name,
-            'artikel_id'=>$request->id_artikel,
-            'total_price' => 30000, 
-            'status'=> 'Unpaid'
+            'artikel_id'=>$request->artikel_id,
+            'total_price' => 30000,
+             'status'=> 'Unpaid'
         ]);
+        $order = Order::create($request->all());
         // ])
-        $artikel = \DB::table('artikel')->where('id', $request->id)->first();
+        $artikel = \DB::table('artikel')->where('id', $request->artikel_id)->first();
         $judul = $artikel->judul;
         
         // Set your Merchant Server Key
@@ -55,13 +52,15 @@ class OrderController extends Controller
 
     public function callback(Request $request)
     {
-        // dd($request->order_id);
         $serverKey = config('midtrans.server_key');
         $hashed = hash("sha512", 
-            $request->order_id.$request->status_code.$request->gross_amount.$serverKey
+            $request->order_id.
+            $request->status_code.
+            $request->gross_amount.
+            $serverKey
         );
-        if ($hashed == $request->signature_key) {
-            if ($request->transaction_status == 'capture') {
+        if ($hashed == $request->signature_key ) {
+            if ($request->transaction_status == 'capture' or $request->transaction_status == 'setlement') {
                 $order = Order::find($request->order_id);
                 $order->update([
                     'status'=> 'Paid'
@@ -72,6 +71,8 @@ class OrderController extends Controller
     public function invoice($id)
     {
         $order = Order::find($id);
-        return view('artikel.guestdash.orders.invoice', compact('order'));
+        $artikel = DB::table('artikel')->where('id', $order->artikel_id)->first();
+        $judul = $artikel->judul;
+        return view('artikel.guestdash.orders.invoice', compact('order','judul'));
     }
 }
